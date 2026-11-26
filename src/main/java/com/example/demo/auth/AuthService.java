@@ -23,6 +23,12 @@ public class AuthService {
         return new LoginResponse("token-" + UUID.randomUUID(), user.nickname());
     }
 
+    public void signup(String email, String password, String nickname) {
+        if (users.putIfAbsent(email, new User(email, password, nickname)) != null) {
+            throw new IllegalArgumentException("이미 가입된 이메일이에요.");
+        }
+    }
+
     record User(String email, String password, String nickname) {
     }
 }
